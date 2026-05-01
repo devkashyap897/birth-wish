@@ -1,527 +1,552 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Happy Birthday Pranjal 💖</title>
-<style>
-  /* Basic reset and style */
-  body, html {
-    margin: 0; padding: 0;
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #ffdde1, #e0c3fc, #c2f0f7);
-    overflow-x: hidden;
-    color: #5a189a;
-    position: relative;
-  }
-  
-  /* Balloon canvas behind content */
-  #balloons {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Pranjal 💖</title>
+  <style>
+    /* Basic reset and style */
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffdde1, #e0c3fc, #c2f0f7);
+      overflow-x: hidden;
+      color: #5a189a;
+      position: relative;
+    }
 
-  header {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    padding: 2rem 1rem 0;
-    color: #d63384;
-    text-shadow: 1px 1px 3px #00000033;
-  }
-  
-  h1 {
-    margin: 0;
-    font-size: 3rem;
-  }
-  
-  #countdown {
-    margin-top: 0.5rem;
-    font-weight: 600;
-    font-size: 1.3rem;
-  }
-  
-  /* Gallery */
-  .gallery {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    padding: 2rem 1rem;
-  }
+    /* Balloon canvas behind content */
+    #balloons {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-  .gallery img {
-    width: 180px;
-    height: auto;
-    max-height: 180px;
-    border-radius: 1rem;
-    box-shadow: 0 6px 15px rgba(214, 51, 132, 0.3);
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    object-fit: contain;
-    background: white;
-  }
+    header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem 1rem 0;
+      color: #d63384;
+      text-shadow: 1px 1px 3px #00000033;
+    }
 
-  .gallery img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(214, 51, 132, 0.6);
-  }
-
-  /* Popup for images */
-  .popup {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  .popup-content {
-    background: #fff0f7;
-    padding: 2rem 3rem;
-    border-radius: 1rem;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    font-size: 1.8rem;
-    color: #d63384;
-    box-shadow: 0 6px 30px rgba(214, 51, 132, 0.5);
-    font-weight: 700;
-    user-select: none;
-    position: relative;
-  }
-
-  .popup-content button {
-    margin-top: 1.5rem;
-    padding: 0.7rem 1.8rem;
-    border: none;
-    background-color: #d63384;
-    color: white;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: background-color 0.3s ease;
-  }
-
-  .popup-content button:hover {
-    background-color: #a72a6e;
-  }
-
-  /* Birthday cake */
-  #cake {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    margin: 2rem 1rem;
-    animation: scaleUp 3s ease-in-out infinite alternate;
-    color: #6a0572;
-    font-weight: 600;
-  }
-
-  #cake img {
-    max-width: 250px;
-    width: 90vw;
-    height: auto;
-    border-radius: 1rem;
-    box-shadow: 0 8px 25px rgba(214, 51, 132, 0.4);
-  }
-
-  @keyframes scaleUp {
-    from { transform: scale(1); }
-    to { transform: scale(1.1); }
-  }
-
-  /* Spin wheel */
-  #game {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    padding: 2rem 1rem 4rem;
-  }
-
-  #wheel {
-    margin: 1rem auto 1.5rem;
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    border: 10px solid #fff;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    background: conic-gradient(
-      #ff9aa2 0deg 60deg, 
-      #ffdac1 60deg 120deg, 
-      #b5ead7 120deg 180deg, 
-      #c7ceea 180deg 240deg, 
-      #f3a683 240deg 300deg, 
-      #f8c291 300deg 360deg
-    );
-    transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
-    cursor: pointer;
-    user-select: none;
-  }
-
-  #spinBtn {
-    padding: 1rem 2rem;
-    font-size: 1.3rem;
-    background-color: #d63384;
-    color: white;
-    border: none;
-    border-radius: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(214, 51, 132, 0.6);
-    transition: background-color 0.3s ease;
-  }
-
-  #spinBtn:hover {
-    background-color: #a72a6e;
-  }
-
-  #giftMessage {
-    font-size: 1.5rem;
-    margin-top: 1.2rem;
-    color: #6a0572;
-    min-height: 40px;
-    font-weight: 600;
-  }
-
-  /* Music popup */
-  #musicPopup {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background-color: rgba(0,0,0,0.75);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 11000;
-    animation: fadeIn 0.6s ease forwards;
-    user-select: none;
-    flex-direction: column;
-    padding: 1rem;
-    box-sizing: border-box;
-  }
-
-  #musicPopup button {
-    padding: 1.5rem 3rem;
-    font-size: 1.6rem;
-    background-color: #d63384;
-    color: white;
-    border: none;
-    border-radius: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 5px 20px rgba(214, 51, 132, 0.7);
-    animation: float 3s ease-in-out infinite;
-    transition: background-color 0.3s ease;
-  }
-
-  #musicPopup button:hover {
-    background-color: #a72a6e;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
-  }
-
-  @keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
     h1 {
-      font-size: 2.2rem;
+      margin: 0;
+      font-size: 3rem;
+    }
+
+    #countdown {
+      margin-top: 0.5rem;
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    /* Gallery */
+    .gallery {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 2rem 1rem;
     }
 
     .gallery img {
-      width: 140px;
-      max-height: 140px;
+      width: 180px;
+      height: auto;
+      max-height: 180px;
+      border-radius: 1rem;
+      box-shadow: 0 6px 15px rgba(214, 51, 132, 0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      object-fit: contain;
+      background: white;
     }
 
-    #wheel {
-      width: 220px;
-      height: 220px;
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(214, 51, 132, 0.6);
     }
 
-    #spinBtn {
-      font-size: 1.1rem;
-      padding: 0.8rem 1.6rem;
+    /* Popup for images */
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      padding: 1rem;
+      box-sizing: border-box;
     }
 
     .popup-content {
-      font-size: 1.3rem;
-      padding: 1.5rem 2rem;
+      background: #fff0f7;
+      padding: 2rem 3rem;
+      border-radius: 1rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      font-size: 1.8rem;
+      color: #d63384;
+      box-shadow: 0 6px 30px rgba(214, 51, 132, 0.5);
+      font-weight: 700;
+      user-select: none;
+      position: relative;
     }
-  }
-</style>
+
+    .popup-content button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.8rem;
+      border: none;
+      background-color: #d63384;
+      color: white;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .popup-content button:hover {
+      background-color: #a72a6e;
+    }
+
+    /* Birthday cake */
+    #cake {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      margin: 2rem 1rem;
+      animation: scaleUp 3s ease-in-out infinite alternate;
+      color: #6a0572;
+      font-weight: 600;
+    }
+
+    #cake img {
+      max-width: 250px;
+      width: 90vw;
+      height: auto;
+      border-radius: 1rem;
+      box-shadow: 0 8px 25px rgba(214, 51, 132, 0.4);
+    }
+
+    @keyframes scaleUp {
+      from {
+        transform: scale(1);
+      }
+
+      to {
+        transform: scale(1.1);
+      }
+    }
+
+    /* Spin wheel */
+    #game {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    #wheel {
+      margin: 1rem auto 1.5rem;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      border: 10px solid #fff;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+      background: conic-gradient(#ff9aa2 0deg 60deg,
+          #ffdac1 60deg 120deg,
+          #b5ead7 120deg 180deg,
+          #c7ceea 180deg 240deg,
+          #f3a683 240deg 300deg,
+          #f8c291 300deg 360deg);
+      transition: transform 5s cubic-bezier(0.33, 1, 0.68, 1);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    #spinBtn {
+      padding: 1rem 2rem;
+      font-size: 1.3rem;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(214, 51, 132, 0.6);
+      transition: background-color 0.3s ease;
+    }
+
+    #spinBtn:hover {
+      background-color: #a72a6e;
+    }
+
+    #giftMessage {
+      font-size: 1.5rem;
+      margin-top: 1.2rem;
+      color: #6a0572;
+      min-height: 40px;
+      font-weight: 600;
+    }
+
+    /* Music popup */
+    #musicPopup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.75);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 11000;
+      animation: fadeIn 0.6s ease forwards;
+      user-select: none;
+      flex-direction: column;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
+
+    #musicPopup button {
+      padding: 1.5rem 3rem;
+      font-size: 1.6rem;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(214, 51, 132, 0.7);
+      animation: float 3s ease-in-out infinite;
+      transition: background-color 0.3s ease;
+    }
+
+    #musicPopup button:hover {
+      background-color: #a72a6e;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+
+      .gallery img {
+        width: 140px;
+        max-height: 140px;
+      }
+
+      #wheel {
+        width: 220px;
+        height: 220px;
+      }
+
+      #spinBtn {
+        font-size: 1.1rem;
+        padding: 0.8rem 1.6rem;
+      }
+
+      .popup-content {
+        font-size: 1.3rem;
+        padding: 1.5rem 2rem;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- Music start popup -->
-<div id="musicPopup" aria-label="Play Birthday Music">
-  <button id="playMusicBtn">🎵 Play Birthday Music</button>
-</div>
-
-<!-- Balloon animation canvas -->
-<canvas id="balloons"></canvas>
-
-<!-- Header and countdown -->
-<header>
-  <h1>Happy Birthday, Pranjal 🎉</h1>
-  <p id="countdown" aria-live="polite" aria-atomic="true">Calculating time since 03 May 2008...</p>
-</header>
-
-<!-- Image gallery -->
-<section class="gallery" aria-label="Birthday photos gallery">
-  <img src="photo1.jpeg" alt="Pranjal photo 1" onclick="showPopup('Pranjal')" />
-  <img src="photo2.jpeg" alt="Pranjal photo 2" onclick="showPopup('Pranjal')" />
-  <img src="photo3.jpeg" alt="Pranjal photo 3" onclick="showPopup('Pranjal')" />
-  <img src="photo4.jpeg" alt="Pranjal photo 4" onclick="showPopup('Pranjal')" />
-  <img src="photo5.jpeg" alt="Pranjal photo 5" onclick="showPopup('Pranjal')" />
-</section>
-
-<!-- Popup for images -->
-<div class="popup" id="imgPopup" role="dialog" aria-modal="true" aria-labelledby="popupMessage" tabindex="-1">
-  <div class="popup-content">
-    <div id="popupMessage">Pranjal</div>
-    <button onclick="closePopup()">Close</button>
+  <!-- Music start popup -->
+  <div id="musicPopup" aria-label="Play Birthday Music">
+    <button id="playMusicBtn">🎵 Play Birthday Music</button>
   </div>
-</div>
 
-<!-- Birthday cake section -->
-<section id="cake">
-  <img src="cake.jpeg" alt="Birthday Cake" />
-  <p>Let's celebrate your special day with love & joy!</p>
-</section>
+  <!-- Balloon animation canvas -->
+  <canvas id="balloons"></canvas>
 
-<!-- Spin wheel game -->
-<section id="game" aria-label="Spin the birthday wheel game">
-  <h2>🎡 Spin the Birthday Wheel Minimum 10 time  🎡</h2>
-  <div id="wheel" title="Click to spin the wheel" role="button" tabindex="0" aria-pressed="false"></div>
-  <button id="spinBtn" aria-label="Spin the wheel">Spin!</button>
-  <div id="giftMessage" aria-live="polite" aria-atomic="true"></div>
-</section>
+  <!-- Header and countdown -->
+  <header>
+    <h1>Happy Birthday, Pranjal 🎉</h1>
+    <p id="countdown" aria-live="polite" aria-atomic="true">Calculating time since 03 May 2008...</p>
+  </header>
 
-<script>
-  // ====== Countdown since 3 May 2008 =======
-  const countdownEl = document.getElementById('countdown');
-  const startDate = new Date(2008, 4, 3, 0, 0, 0); // May is month 4 (0-based)
+  <!-- Image gallery -->
+  <section class="gallery" aria-label="Birthday photos gallery">
+    <img src="photo1.jpeg" alt="Pranjal photo 1" onclick="showPopup('Pranjal')" />
+    <img src="photo2.jpeg" alt="Pranjal photo 2" onclick="showPopup('Pranjal')" />
+    <img src="photo3.jpeg" alt="Pranjal photo 3" onclick="showPopup('Pranjal')" />
+    <img src="photo4.jpeg" alt="Pranjal photo 4" onclick="showPopup('Pranjal')" />
+    <img src="photo5.jpeg" alt="Pranjal photo 5" onclick="showPopup('Pranjal')" />
+  </section>
 
-  // Helper function to calculate elapsed time parts
-  function elapsedTimeParts(fromDate, toDate) {
-    let years = toDate.getFullYear() - fromDate.getFullYear();
-    let months = toDate.getMonth() - fromDate.getMonth();
-    let days = toDate.getDate() - fromDate.getDate();
-    let hours = toDate.getHours() - fromDate.getHours();
-    let minutes = toDate.getMinutes() - fromDate.getMinutes();
-    let seconds = toDate.getSeconds() - fromDate.getSeconds();
+  <!-- Popup for images -->
+  <div class="popup" id="imgPopup" role="dialog" aria-modal="true" aria-labelledby="popupMessage" tabindex="-1">
+    <div class="popup-content">
+      <div id="popupMessage">Pranjal</div>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
 
-    // Adjust for negatives
-    if (seconds < 0) {
-      seconds += 60;
-      minutes--;
+  <!-- Birthday cake section -->
+  <section id="cake">
+    <img src="cake.jpeg" alt="Birthday Cake" />
+    <p>Let's celebrate your special day with love & joy!</p>
+  </section>
+
+  <!-- Spin wheel game -->
+  <section id="game" aria-label="Spin the birthday wheel game">
+    <h2>🎡 Spin the Birthday Wheel Minimum 10 time 🎡</h2>
+    <div id="wheel" title="Click to spin the wheel" role="button" tabindex="0" aria-pressed="false"></div>
+    <button id="spinBtn" aria-label="Spin the wheel">Spin!</button>
+    <div id="giftMessage" aria-live="polite" aria-atomic="true"></div>
+  </section>
+
+  <script>
+    // ====== Countdown since 3 May 2008 =======
+    const countdownEl = document.getElementById('countdown');
+    const startDate = new Date(2008, 4, 3, 0, 0, 0); // May is month 4 (0-based)
+
+    // Helper function to calculate elapsed time parts
+    function elapsedTimeParts(fromDate, toDate) {
+      let years = toDate.getFullYear() - fromDate.getFullYear();
+      let months = toDate.getMonth() - fromDate.getMonth();
+      let days = toDate.getDate() - fromDate.getDate();
+      let hours = toDate.getHours() - fromDate.getHours();
+      let minutes = toDate.getMinutes() - fromDate.getMinutes();
+      let seconds = toDate.getSeconds() - fromDate.getSeconds();
+
+      // Adjust for negatives
+      if (seconds < 0) {
+        seconds += 60;
+        minutes--;
+      }
+      if (minutes < 0) {
+        minutes += 60;
+        hours--;
+      }
+      if (hours < 0) {
+        hours += 24;
+        days--;
+      }
+      if (days < 0) {
+        // get days in previous month
+        const prevMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 0).getDate();
+        days += prevMonth;
+        months--;
+      }
+      if (months < 0) {
+        months += 12;
+        years--;
+      }
+
+      // Calculate weeks from days
+      let weeks = Math.floor(days / 7);
+      days = days % 7;
+
+      return { years, months, weeks, days, hours, minutes, seconds };
     }
-    if (minutes < 0) {
-      minutes += 60;
-      hours--;
-    }
-    if (hours < 0) {
-      hours += 24;
-      days--;
-    }
-    if (days < 0) {
-      // get days in previous month
-      const prevMonth = new Date(toDate.getFullYear(), toDate.getMonth(), 0).getDate();
-      days += prevMonth;
-      months--;
-    }
-    if (months < 0) {
-      months += 12;
-      years--;
+
+    function updateElapsed() {
+      const now = new Date();
+      const elapsed = elapsedTimeParts(startDate, now);
+      countdownEl.textContent =
+        `Time since 03 May 2008: ${elapsed.years} years, ${elapsed.months} months, ` +
+        `${elapsed.weeks} weeks, ${elapsed.days} days, ${elapsed.hours} hours, ` +
+        `${elapsed.minutes} minutes, ${elapsed.seconds} seconds`;
     }
 
-    // Calculate weeks from days
-    let weeks = Math.floor(days / 7);
-    days = days % 7;
+    setInterval(updateElapsed, 1000);
+    updateElapsed();
 
-    return {years, months, weeks, days, hours, minutes, seconds};
-  }
+    // ===== Balloon animation =====
+    const canvas = document.getElementById('balloons');
+    const ctx = canvas.getContext('2d');
+    let width, height;
 
-  function updateElapsed() {
-    const now = new Date();
-    const elapsed = elapsedTimeParts(startDate, now);
-    countdownEl.textContent = 
-      `Time since 03 May 2008: ${elapsed.years} years, ${elapsed.months} months, ` +
-      `${elapsed.weeks} weeks, ${elapsed.days} days, ${elapsed.hours} hours, ` +
-      `${elapsed.minutes} minutes, ${elapsed.seconds} seconds`;
-  }
-
-  setInterval(updateElapsed, 1000);
-  updateElapsed();
-
-  // ===== Balloon animation =====
-  const canvas = document.getElementById('balloons');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-
-  function resizeCanvas() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
-  class Balloon {
-    constructor() {
-      this.x = Math.random() * width;
-      this.y = height + 50 + Math.random() * 100;
-      this.size = 20 + Math.random() * 30;
-      this.speed = 0.5 + Math.random() * 1;
-      this.color = `hsl(${Math.random() * 360}, 70%, 75%)`;
-      this.drift = (Math.random() - 0.5) * 0.5;
+    function resizeCanvas() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
     }
-    update() {
-      this.y -= this.speed;
-      this.x += this.drift;
-      if (this.y + this.size < 0) {
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Balloon {
+      constructor() {
         this.x = Math.random() * width;
-        this.y = height + 50;
+        this.y = height + 50 + Math.random() * 100;
         this.size = 20 + Math.random() * 30;
-        this.speed = 0.5 + Math.random();
+        this.speed = 0.5 + Math.random() * 1;
         this.color = `hsl(${Math.random() * 360}, 70%, 75%)`;
         this.drift = (Math.random() - 0.5) * 0.5;
       }
+      update() {
+        this.y -= this.speed;
+        this.x += this.drift;
+        if (this.y + this.size < 0) {
+          this.x = Math.random() * width;
+          this.y = height + 50;
+          this.size = 20 + Math.random() * 30;
+          this.speed = 0.5 + Math.random();
+          this.color = `hsl(${Math.random() * 360}, 70%, 75%)`;
+          this.drift = (Math.random() - 0.5) * 0.5;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size * 0.7, this.size, 0, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        // String
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + this.size);
+        ctx.lineTo(this.x, this.y + this.size + 40);
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
     }
-    draw() {
-      ctx.beginPath();
-      ctx.ellipse(this.x, this.y, this.size*0.7, this.size, 0, 0, Math.PI*2);
-      ctx.fillStyle = this.color;
-      ctx.fill();
-      // String
-      ctx.beginPath();
-      ctx.moveTo(this.x, this.y + this.size);
-      ctx.lineTo(this.x, this.y + this.size + 40);
-      ctx.strokeStyle = this.color;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+
+    const balloons = [];
+    for (let i = 0; i < 30; i++) {
+      balloons.push(new Balloon());
     }
-  }
 
-  const balloons = [];
-  for(let i=0; i<30; i++) {
-    balloons.push(new Balloon());
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, width, height);
-    for(let b of balloons) {
-      b.update();
-      b.draw();
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (let b of balloons) {
+        b.update();
+        b.draw();
+      }
+      requestAnimationFrame(animate);
     }
-    requestAnimationFrame(animate);
-  }
-  animate();
+    animate();
 
-  const popup = document.getElementById('imgPopup');
-  const popupMessage = document.getElementById('popupMessage');
+    const popup = document.getElementById('imgPopup');
+    const popupMessage = document.getElementById('popupMessage');
 
-  function showPopup(name) {
-    popupMessage.textContent = `Happy Birthday, ${name}! 💖`;
-    popup.style.display = 'flex';
-    popup.focus();
-  }
+    function showPopup(name) {
+      popupMessage.textContent = `Happy Birthday, ${name}! 💖`;
+      popup.style.display = 'flex';
+      popup.focus();
+    }
 
-  function closePopup() {
-    popup.style.display = 'none';
-  }
+    function closePopup() {
+      popup.style.display = 'none';
+    }
 
-  const wheel = document.getElementById('wheel');
-  const spinBtn = document.getElementById('spinBtn');
-  const giftMessage = document.getElementById('giftMessage');
-  let isSpinning = false;
+    const wheel = document.getElementById('wheel');
+    const spinBtn = document.getElementById('spinBtn');
+    const giftMessage = document.getElementById('giftMessage');
+    let isSpinning = false;
 
-  const gifts = [
-    "Arre, iski muskaan toh jaise chaandni raat mein roshni bikherti ho .",
-    "Chehra aisa, jaise subah ka pehla suraj — narm, halka, lekin manmohak.",
-    "Uski aankhon mein aisi baat hai, jaise kahaani keh rahi ho bina kuch bole.",
-    "Jaise hi vo aaye, poori jagah mein ek alag si roshni chha jaati hai.",
-    "Khubsurti sirf chehre mein nahi, uske har andaaz mein basi hai.",
-    "Chalti hai toh lagta hai jaise phoolon ki mahak saath chal rahi ho.",
-    "Uski simplicity hi uska sabse bada gehna hai.",
-    "Ohh Tharii इति फुटरी Chori 😯 ",
-    "only noor",
-    "Vo sundarta ka matlab hi badal deti hai — dil se, soch se, aur roop se bhi.",
-    "thay one mahila mitra when the topic is beauty",
-    "noor-e-jahan",
+    const gifts = [
+      "Arre, iski muskaan toh jaise chaandni raat mein roshni bikherti ho .",
+      "Chehra aisa, jaise subah ka pehla suraj — narm, halka, lekin manmohak.",
+      "Uski aankhon mein aisi baat hai, jaise kahaani keh rahi ho bina kuch bole.",
+      "Jaise hi vo aaye, poori jagah mein ek alag si roshni chha jaati hai.",
+      "Khubsurti sirf chehre mein nahi, uske har andaaz mein basi hai.",
+      "Chalti hai toh lagta hai jaise phoolon ki mahak saath chal rahi ho.",
+      "Uski simplicity hi uska sabse bada gehna hai.",
+      "Ohh Tharii इति फुटरी Chori 😯 ",
+      "only noor",
+      "Vo sundarta ka matlab hi badal deti hai — dil se, soch se, aur roop se bhi.",
+      "thay one mahila mitra when the topic is beauty",
+      "noor-e-jahan",
     ];
 
-  function spinWheel() {
-    if (isSpinning) return;
-    isSpinning = true;
-    giftMessage.textContent = "Spinning...";
-    spinBtn.setAttribute('aria-disabled', 'true');
-    wheel.setAttribute('aria-pressed', 'true');
+    function spinWheel() {
+      if (isSpinning) return;
+      isSpinning = true;
+      giftMessage.textContent = "Spinning...";
+      spinBtn.setAttribute('aria-disabled', 'true');
+      wheel.setAttribute('aria-pressed', 'true');
 
-    const spins = Math.floor(Math.random() * 5) + 5; // 5 to 9 spins
-    const degreesPerSlice = 360 / gifts.length;
-    const randomSlice = Math.floor(Math.random() * gifts.length);
-    const finalDegree = (spins * 360) + (randomSlice * degreesPerSlice) + degreesPerSlice/2;
+      const spins = Math.floor(Math.random() * 5) + 5; // 5 to 9 spins
+      const degreesPerSlice = 360 / gifts.length;
+      const randomSlice = Math.floor(Math.random() * gifts.length);
+      const finalDegree = (spins * 360) + (randomSlice * degreesPerSlice) + degreesPerSlice / 2;
 
-    wheel.style.transition = "transform 5s cubic-bezier(0.33, 1, 0.68, 1)";
-    wheel.style.transform = `rotate(${finalDegree}deg)`;
+      wheel.style.transition = "transform 5s cubic-bezier(0.33, 1, 0.68, 1)";
+      wheel.style.transform = `rotate(${finalDegree}deg)`;
 
-    setTimeout(() => {
-      isSpinning = false;
-      giftMessage.textContent = `You got: ${gifts[randomSlice]}! 🎉`;
-      spinBtn.setAttribute('aria-disabled', 'false');
-      wheel.setAttribute('aria-pressed', 'false');
-    }, 5200);
-  }
-
-  spinBtn.addEventListener('click', spinWheel);
-  wheel.addEventListener('click', spinWheel);
-  wheel.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      spinWheel();
+      setTimeout(() => {
+        isSpinning = false;
+        giftMessage.textContent = `You got: ${gifts[randomSlice]}! 🎉`;
+        spinBtn.setAttribute('aria-disabled', 'false');
+        wheel.setAttribute('aria-pressed', 'false');
+      }, 5200);
     }
-  });
 
-  const musicPopup = document.getElementById('musicPopup');
-  const playMusicBtn = document.getElementById('playMusicBtn');
-  const audio = new Audio('birthday_song.mp3');
-  
-  playMusicBtn.addEventListener('click', () => {
-    audio.play()
-      .then(() => {
-        musicPopup.style.display = 'none';
-      })
-      .catch(err => {
-        alert("Music cannot autoplay without interaction. Please click the button.");
-      });
-  });
+    spinBtn.addEventListener('click', spinWheel);
+    wheel.addEventListener('click', spinWheel);
+    wheel.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        spinWheel();
+      }
+    });
 
-  // For mobile: unlock audio context by user interaction if needed
-  document.body.addEventListener('touchstart', () => {
-    if (audio.paused) {
-      audio.play().catch(() => {});
-    }
-  }, {once:true});
-</script>
+    const musicPopup = document.getElementById('musicPopup');
+    const playMusicBtn = document.getElementById('playMusicBtn');
+    const audio = new Audio('birthday_song.mp3');
+
+    playMusicBtn.addEventListener('click', () => {
+      audio.play()
+        .then(() => {
+          musicPopup.style.display = 'none';
+        })
+        .catch(err => {
+          alert("Music cannot autoplay without interaction. Please click the button.");
+        });
+    });
+
+    // For mobile: unlock audio context by user interaction if needed
+    document.body.addEventListener('touchstart', () => {
+      if (audio.paused) {
+        audio.play().catch(() => { });
+      }
+    }, { once: true });
+  </script>
 
 </body>
+
 </html>
